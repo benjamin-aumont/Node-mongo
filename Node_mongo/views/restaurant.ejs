@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Mes restaurants</title>
+        <style>
+            a {text-decoration: none; color: floralwhite;}
+			td { list-style-type: none; }
+			td input { margin-right: 10px; }
+            td .supprimer { margin-left:10px; color:red; font-weight:bold; font-size:60%; cursor:pointer }
+
+            html {
+                scroll-behavior: smooth;
+            }
+
+            button{
+                background-image: linear-gradient(to bottom,rgba(255,255,255,0.8), rgba(255,255,255,0));
+                border-radius: 5px;
+                border-color: 1px, gray;
+                color: white;
+                padding: 10px;
+                background-color: mediumaquamarine;  
+            }
+
+            button:hover{
+                    cursor: pointer;
+                    background: yellow;
+                    color: #000;
+            }
+
+            #rechercher{
+                background-image: linear-gradient(to bottom,rgba(255,255,255,0.8), rgba(255,255,255,0));
+                border-radius: 5px;
+                border-color: 1px, gray;
+                color: white;
+                padding: 10px;
+                background-color: mediumaquamarine;
+            }
+
+            #rechercher:hover{
+                cursor: pointer;
+                background: yellow;
+                color: #000;
+            }
+
+            h1{
+                text-align: center;
+                color:mediumaquamarine;
+                font-family: Brush Script MT, Brush Script Std, cursive;
+
+            }
+            
+            h4{
+                text-align: center;
+            }
+
+            h3{
+                color:mediumaquamarine;
+                text-align: center;
+            }
+            
+            input, button, select{
+                display: block;
+                margin-left: auto;
+                margin-right: auto
+            }
+
+            body {
+                background-color: #373737;
+                color: floralwhite;
+            }
+
+            body{
+                font-family: 'Trebuchet MS', Arial, sans-serif;
+            }
+
+            footer {
+                display: flex;
+                justify-content: center;
+            }
+
+            thead{
+                color: mediumaquamarine;
+                font-family: Brush Script MT, Brush Script Std, cursive;
+                font-size: 30px;
+            }
+
+            .container{
+                display: block;
+                margin-left: auto;
+                margin-right: auto
+            }
+
+            .container{
+	            position: relative;
+	            width: 1200px;
+	            display: flex;
+	            flex-wrap: wrap;
+                justify-content:center;
+                text-align: center;
+                align-items: center;
+            }
+
+            .container .box{
+	            position: relative;
+	            width: 500px;
+	            height: 300px;
+	            margin: 20px 0;
+	            box-sizing: border-box;
+                overflow: hidden;
+                border-radius: 5px;
+                box-shadow: 0px 4px 4px #1c1a19;
+            }
+
+            .container .box .imgBx{
+	            position: absolute;
+	            top: 0;
+	            left: 0;
+	            width: 100%;
+	            height: 100%;
+	            background: #000;
+	            clip-path: circle(400px at center 100px);
+	            transition: 0.5s;
+                transition-delay: 0.5s;
+            }
+
+            .container .box:hover .imgBx{
+	            clip-path: circle(80px at center 100px);
+	            transition-delay: 0s;
+            }
+
+            .container .box .imgBx img{
+	            position: absolute;
+	            top: 0;
+	            left: 0;
+	            width: 100%;
+	            height: 100%;
+                object-fit: cover;
+                display: block;
+                margin-left: auto;
+                margin-right: auto
+		        
+            }
+
+            .container .box .content{
+	            position: absolute;
+	            left: 0;
+	            bottom: 0;
+	            width: 100%;
+	            height: 55%;
+	            padding: 20px;
+	            box-sizing: border-box;
+                text-align: center;
+                align-items: center;
+            }
+
+
+        </style>
+    </head>
+    <body>
+        <header>
+            <h1>Mes Restaurants</h1>
+            <div class="container">
+                <div class="box">
+                    <div class="imgBx">
+                        <img src="public/logo.jpg">
+                    </div>
+                    <div class="content">
+                        <h2>TP Mongo</h2>
+                        <p>Bonjour nous sommes 2 etudiants en Licence Pro et voici le résultat de notre TP avec la technologie Node JS et une base MongoDB</p>
+                    </div>
+                </div>
+        </header>
+            <table>
+                <thead>
+                    <tr>
+                        <td>Nom</td>
+                        <td>Cuisine</td>
+                        <td>Quartier</td>
+                        <td>Adresse</td>
+                        <td>zip code</td>
+                    </tr>
+                </thead>
+                <tbody>
+                <% todolist.forEach(function(restaurant, index) { %>
+                    <tr>
+                        <td><%= restaurant.name %></td>
+                        <td><%= restaurant.cuisine %></td>
+                        <td><%= restaurant.borough %></td>
+                        <td><%= restaurant.address.street %></td>
+                        <td><%= restaurant.address.zipcode %></td>
+                        <td><span class='supprimer'>✕</span></td>
+                    </tr>
+            <% }); %>
+                </tbody>
+            </table>
+
+            <h3>Recherche par cuisine: </h3>
+            <select name="cuisine" id="cuisine">
+                <% var cuisine=[];
+                todolist.forEach(function(restaurant, index) {
+                    if(cuisine.indexOf(restaurant.cuisine) === -1) {
+                        cuisine.push(restaurant.cuisine)
+                    }
+                });
+                cuisine.forEach(function(cuisine, index) { %>
+                    <option value=<%= cuisine %>><%= cuisine %></option>
+                <% }); %>
+            </select>
+            <button value="rechercher" id="rechercher" type="submit">Rechercher</button>
+    
+            <form action="/resto"  method="post" >
+            
+                <h3>Nouveaux restaurants : </h3>
+                <h4>Nom :</h4>
+                <input  name="name" type="text" id="title">
+                <h4>Adresse :</h4>
+                <input name="street" type="text" id="title">
+                <h4>Code Postal :</h4>
+                <input name="zipcode" type="number" id="title">
+                <h4>Quartier :</h4>
+                <input name="borough" type="text"  id="title">
+                <h4>Cuisine :</h4>
+                <input name="cuisine" type="text"  id="title">
+                <h4>Building :</h4>
+                <input name="building" type="text" id="title">
+                <h4>Coordonnées :</h4>
+                <input name="coord" type="number" id="title">
+                <button value="ajouter" type="submit">Enregistrer</button>
+            </form>
+            <footer>
+                <p>&copy; 2021 - Tout droits réservés</p>
+            </footer>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js" type="text/javascript"></script>
+                <script>
+                    $('html, body').animate({ scrollTop: 0 }, 'fast');
+                    var rechercheBtn = document.getElementById("rechercher");
+                    var menu = document.getElementById("cuisine");
+
+                    rechercheBtn.onclick = function() {
+                        var typeCuisine = $("#cuisine option:selected").text();
+                        var url = "http://localhost:3000/resto/cuisine/" + typeCuisine;
+                        console.log(url);
+                        window.location = url;
+                    }
+                </script>
+    </body>
+</html>
